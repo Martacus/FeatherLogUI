@@ -17,7 +17,7 @@ const isFiltered = computed(() => props.table.getState().columnFilters.length > 
   <div class="flex items-center">
     <div class="flex flex-1 items-center space-x-2">
       <Input
-        placeholder="Filter tasks..."
+        placeholder="Filter logs..."
         :model-value="(table.getColumn('log')?.getFilterValue() as string) ?? ''"
         class="h-8 w-[150px] lg:w-[250px]"
         @input="table.getColumn('log')?.setFilterValue($event.target.value)"
@@ -35,7 +35,7 @@ const isFiltered = computed(() => props.table.getState().columnFilters.length > 
     
     <Button variant="secondary" class="mr-auto"
     @click="refresh()">
-        <RotateCcw></RotateCcw>
+        <RotateCcw class="w-6 h-6"></RotateCcw>
       </Button>
     
     <!-- <DataTableViewOptions :table="table" /> -->
