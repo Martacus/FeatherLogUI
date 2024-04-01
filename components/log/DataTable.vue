@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { type ColumnDef, useVueTable, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, getFacetedRowModel, getFacetedUniqueValues, type SortingState, type ColumnFiltersState, type VisibilityState, FlexRender } from '@tanstack/vue-table';
-import type { Domain } from '~/data/schema';
+import type { Log } from '~/data/schema';
 import { valueUpdater } from '@/lib/utils'
 
 interface DataTableProps {
-  columns: ColumnDef<Domain, any>[]
-  data: Domain[]
+  columns: ColumnDef<Log, any>[]
+  data: Log[],
+  refresh: () => void
 }
 
 const props = defineProps<DataTableProps>()
@@ -40,8 +41,8 @@ const table = useVueTable({
 
 <template>
   <div class="space-y-4">
-    <DomainTableToolbar :table="table"></DomainTableToolbar>
-    <div class="rounded-md border">
+    <LogTableToolbar :table="table" :refresh="refresh"></LogTableToolbar>
+    <div class="rounded-md border w-full">
       <Table>
         <TableHeader>
           <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
@@ -56,10 +57,7 @@ const table = useVueTable({
             <TableRow v-for="row in table.getRowModel().rows" :key="row.id"
               :data-state="row.getIsSelected() && 'selected'">
               <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
-                <NuxtLink :to="'/logs/' + cell.getContext().getValue()">
-                  <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
-                </NuxtLink>
-                
+                <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
               </TableCell> 
             </TableRow>
           </template>
